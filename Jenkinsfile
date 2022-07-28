@@ -40,7 +40,7 @@ pipeline {
          sh 'docker push palakollu145/nodeweb'
         }
       }
-        stage('running image'){
+        stage('removing images'){
         steps{
             sh 'docker container stop $(docker container ls -aq)'
             sh 'docker container prune --force'
