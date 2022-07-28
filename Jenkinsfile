@@ -28,6 +28,11 @@ pipeline {
         sh 'docker build -t palakollu145/nodeweb .'
         }
       }
+        stage('pushing image') {
+      steps{
+        sh 'docker push palakollu145/nodeweb .'
+        }
+      }
     }
     
 }
