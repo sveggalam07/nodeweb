@@ -28,15 +28,16 @@ pipeline {
         sh 'docker build -t palakollu145/nodeweb .'
         }
       }
-        stage('login')
+        stage('login&push')
         {
             steps{
                 sh 'docker login -u palakollu145 -p Saikrish9949@'
+                sh 'docker push palakollu145/nodeweb .'
             }
         }
         stage('pushing image') {
       steps{
-        sh 'docker push palakollu145/nodeweb .'
+         echo 'pushed'
         }
       }
     }
