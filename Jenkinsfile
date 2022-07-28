@@ -40,7 +40,7 @@ pipeline {
          sh 'docker push palakollu145/nodeweb'
         }
       }
-       stage('running image')
+        stage('running image'){
         steps{
             sh 'docker run -d -p 4000:5000 palakollu145/nodeweb'
         }
