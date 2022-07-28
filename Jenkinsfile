@@ -1,6 +1,6 @@
 pipeline {
   environment {
-    registry = "lakshitsainiceligo/node.js-hello-world-microservice-example"
+    registry = "lakshitsainiceligo/nodeweb"
     registryCredential = 'dockerhub'
     dockerImage = ''
   }
@@ -9,7 +9,7 @@ pipeline {
   stages {
     stage('Cloning Git') {
       steps {
-        git 'https://github.com/lakshitsaini/Node.js-Hello-World-Microservice-Example.git'
+        git 'https://github.com/lakshitsaini/nodeweb.git'
       }
     }
     stage('Build') {
