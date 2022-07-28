@@ -8,7 +8,7 @@ pipeline {
         stage('git') {
             steps {
                 echo 'pulling code'
-                git 'https://github.com/palakollu145/nodeweb'
+                git branch: 'main', url: 'https://github.com/palakollu145/nodeweb'
             }
         }
         stage('install npm'){
