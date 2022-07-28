@@ -31,7 +31,7 @@ pipeline {
         stage('login')
         {
             steps{
-                sh 'docker login -u palakollu145'
+                sh 'docker login -u palakollu145 -p Saikrish9949@'
             }
         }
         stage('pushing image') {
