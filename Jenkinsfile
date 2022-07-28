@@ -1,54 +1,56 @@
 pipeline {
-    agent any
-    tools {
-    nodejs 'nodejs'
-    dockerTool 'docker'
-}
-    stages {
-        stage('git') {
-            steps {
-                echo 'pulling code'
-                git branch: 'main', url: 'https://github.com/palakollu145/nodeweb'
-            }
-        }
-        stage('install npm'){
-            steps{
-                echo 'started npm install'
-                sh 'npm install'
-            }
-        }
-        stage('version')
-        {
-            steps{
-                sh 'docker --version'
-            }
-        }
-        stage('Building image') {
-      steps{
-        sh 'docker build -t palakollu145/nodeweb .'
-        }
+  environment {
+    registry = "lakshitsainiceligo/node.js-hello-world-microservice-example"
+    registryCredential = 'dockerhub'
+    dockerImage = ''
+  }
+  agent any
+  tools {nodejs "nodejs"}
+  stages {
+    stage('Cloning Git') {
+      steps {
+        git 'https://github.com/lakshitsaini/Node.js-Hello-World-Microservice-Example.git'
       }
-        stage('login')
-        {
-            steps{
-                sh 'docker login -u palakollu145 -p Saikrish9949@'
-                
-            }
-        }
-        stage('pushing image') {
-      steps{
-         sh 'docker push palakollu145/nodeweb'
-        }
+    }
+    stage('Build') {
+       steps {
+         sh 'npm install'
+       }
+    }
+    stage('Test') {
+      steps {
+        sh 'npm test'
       }
-        stage('removing images'){
+    }
+    stage('Initialize') {
         steps{
-            sh 'docker container stop $(docker container ls -aq)'
-            sh 'docker container prune --force'
-            sh 'docker image prune --all --force'
-            sh 'docker ps'
-            sh 'docker images'
+            script{
+                def dockerHome = tool 'docker'
+                env.PATH = "${dockerHome}/bin:${env.PATH}"
+            }
         }
     }
-    
-}
+    stage('Building image') {
+      steps{
+        script {
+          dockerImage = docker.build registry + ":$BUILD_NUMBER"
+        }
+      }
+    }
+    stage('Deploy Image') {
+      steps{
+         script {
+            docker.withRegistry('https://registry.hub.docker.com', registryCredential ) {
+            dockerImage.push("${env.BUILD_NUMBER}")            
+            dockerImage.push("latest")  
+          }
+        }
+      }
+    }
+    stage('Remove Unused docker image') {
+      steps{
+        sh "docker rmi $registry:$BUILD_NUMBER"
+      }
+    }
+  }
 }
