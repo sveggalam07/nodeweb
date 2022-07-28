@@ -25,7 +25,7 @@ pipeline {
         }
         stage('Building image') {
       steps{
-        echo 'building image'
+        sh 'docker build -t palakollu145/nodeweb .'
         }
       }
     }
