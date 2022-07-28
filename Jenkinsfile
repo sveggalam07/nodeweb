@@ -37,12 +37,13 @@ pipeline {
         }
         stage('pushing image') {
       steps{
-         sh 'docker push palakollu145/nodeweb'
+         sh 'docker push palakollu145/nodeweb:1.0'
         }
       }
         stage('running image'){
         steps{
-            sh 'docker run -d -p 4001:5000 palakollu145/nodeweb'
+            sh 'docker stop 15eae3c84b95'
+            sh 'docker stop dcaadebdfc1a' 
             sh 'docker ps'
         }
     }
