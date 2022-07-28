@@ -42,9 +42,9 @@ pipeline {
       }
         stage('running image'){
         steps{
-            sh 'docker stop 15eae3c84b95'
-            sh 'docker stop dcaadebdfc1a' 
+             
             sh 'docker ps'
+            sh 'docker images'
         }
     }
     
