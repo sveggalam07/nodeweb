@@ -47,7 +47,7 @@ pipeline {
          script {
             echo 'Deploying docker image to dockerhub'
             docker.withRegistry('https://registry.hub.docker.com', registryCredential ) {
-            dockerImage.push("NODE-APP")            
+            dockerImage.push("nodeapp")            
           }
         }
       }
