@@ -16,7 +16,7 @@ pipeline {
         stage('Git') {
             steps {
                 echo 'cloning github repo'
-                git ''
+                git 'https://github.com/sveggalam07/nodeweb.git'
             }
         }
         stage('Build')
@@ -47,7 +47,7 @@ pipeline {
          script {
             echo 'Deploying docker image to dockerhub'
             docker.withRegistry('https://registry.hub.docker.com', registryCredential ) {
-            dockerImage.push("${env.BUILD_NUMBER}")            
+            dockerImage.push("NODE-APP")            
           }
         }
       }
